@@ -31,7 +31,7 @@ RCT_EXPORT_METHOD(testModule:(NSString *)name location:(NSString *)location)
 
 RCT_EXPORT_METHOD(openDoc:(NSArray *)array callback:(RCTResponseSenderBlock)callback)
 {
-    
+
     __weak RNReactNativeDocViewer* weakSelf = self;
     dispatch_queue_t asyncQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(asyncQueue, ^{
@@ -56,7 +56,7 @@ RCT_EXPORT_METHOD(openDoc:(NSArray *)array callback:(RCTResponseSenderBlock)call
         NSURL* tmpFileUrl = [[NSURL alloc] initFileURLWithPath:path];
         [dat writeToURL:tmpFileUrl atomically:YES];
         weakSelf.fileUrl = tmpFileUrl;
-        
+
         dispatch_async(dispatch_get_main_queue(), ^{
             QLPreviewController* cntr = [[QLPreviewController alloc] init];
             cntr.delegate = weakSelf;
@@ -65,9 +65,12 @@ RCT_EXPORT_METHOD(openDoc:(NSArray *)array callback:(RCTResponseSenderBlock)call
                 callback(@[[NSNull null], array]);
             }
             UIViewController* root = [[[UIApplication sharedApplication] keyWindow] rootViewController];
+            while (root.presentedViewController) {
+                root = [root presentedViewController];
+            }
             [root presentViewController:cntr animated:YES completion:nil];
         });
-        
+
     });
 }
 
@@ -91,4 +94,4 @@ RCT_EXPORT_METHOD(openDoc:(NSArray *)array callback:(RCTResponseSenderBlock)call
 
 
 @end
-  
+
