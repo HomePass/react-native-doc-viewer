@@ -16,7 +16,6 @@ public class RNReactNativeDocViewerPackage implements ReactPackage {
       return Arrays.<NativeModule>asList(new RNReactNativeDocViewerModule(reactContext));
     }
 
-    @Override
     public List<Class<? extends JavaScriptModule>> createJSModules() {
       return Collections.emptyList();
     }
